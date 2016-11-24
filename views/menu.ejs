@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arcobaleno</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<header id = "header">
+    <%if (!user){ %>
+    <h5><a href = "/register">Регистрация</a></h5>
+    <h5><a href = "/login">Вход</a></h5>
+    <%}%>
+    <% if (user){ %>
+    <h5><a href = "/profile">Профиль</a></h5>
+    <%}%>
+</header>
+<ul id = "navbar">
+    <li><a href = "/">Главная</a></li>
+    <li><a href = "/menu">Меню</a></li>
+        <%if  (user && !user.admin){%>
+    <li><a href = "#">Заказ</a></li>
+        <%}%>
+    <li><a href = "#">Контакты</a></li>
+</ul>
+
+Салаты<br>
+<%for (var i = 0; i < salad.length; i++){%>
+<%=salad[i].name%>........<%=salad[i].price%> грн......<%=salad[i].weight%>г
+<%if (user && user.admin){%>
+<form action = "/deleteDish/<%=salad[i]._id%>" method="get">
+    <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%}%>
+<br>
+<%}%>
+<br>
+Горячие блюда<br>
+<%for (var i = 0; i < hot.length; i++){%>
+<%=hot[i].name%>........<%=hot[i].price%> грн......<%=hot[i].weight%>г
+<%if (user && user.admin){%>
+<form action = "/deleteDish/<%=hot[i]._id%>" method="get">
+    <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%}%>
+<br>
+<%}%>
+<br>
+Гарниры<br>
+<%for (var i = 0; i < garnish.length; i++){%>
+<%=garnish[i].name%>........<%=garnish[i].price%> грн......<%=garnish[i].weight%>г
+<%if (user && user.admin){%>
+<form action = "/deleteDish/<%=garnish[i]._id%>" method="get">
+    <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%}%>
+<br>
+<%}%>
+<br>
+Десерты<br>
+<%for (var i = 0; i < dessert.length; i++){%>
+<%=dessert[i].name%>........<%=dessert[i].price%> грн......<%=dessert[i].weight%>г
+<%if (user && user.admin){%>
+<form action = "/deleteDish/<%=dessert[i]._id%>" method="get">
+    <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%}%>
+<br>
+<%}%>
+<br>
+Напитки<br>
+<%for (var i = 0; i < drink.length; i++){%>
+<%=drink[i].name%>........<%=drink[i].price%> грн......<%=drink[i].weight%>г
+<%if (user && user.admin){%>
+<form action = "/deleteDish/<%=drink[i]._id%>" method="get">
+    <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%}%>
+<br>
+<%}%>
+<br>
+
+
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arcobaleno</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+</head>
+<body>
+<header id = "header">
+    <h5><a href = "/register">Регистрация</a></h5>
+    <h5><a href = "/login">Вход</a></h5>
+</header>
+
+<div class = "navbar">
+    <a href = "/">Главная</a>
+    <a href = "/menu">Меню</a>
+    <a href = "#">Заказ</a>
+    <a href = "#">Контакты</a>
+</div>
+
+<div class = "registration">
+    <% if (message.length > 0) { %>
+    <div class="alert alert-danger"><%= message %></div>
+    <% } %>
+    <form action='/login' method = 'POST'>
+        E-mail: <input type = 'text' name = 'email'/><br/>
+        Пароль: <input type = 'password' name = 'password' /><br/>
+        <input type="submit" value='Вход'/>
+    </form>
+
+</div>
+
+</body>
+</html>

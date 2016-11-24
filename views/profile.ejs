@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arcobaleno</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+</head>
+<style>
+    body        { padding-top:80px; word-wrap:break-word; }
+</style>
+<body>
+<header id = "header">
+    <h5><a href = "/profile">Профиль</a></h5>
+    <h5><a href = "/logout">Выход</a></h5>
+</header>
+<ul id = "navbar">
+    <li><a href = "/">Главная</a></li>
+    <li><a href = "/menu">Меню</a></li>
+    <li><a href = "#">Заказ</a></li>
+    <li><a href = "#">Контакты</a></li>
+</ul>
+<div class="col-sm-6">
+    <div class="well">
+        <h3><span class="fa fa-user"></span> This is your profile!</h3>
+
+        <p>
+            <strong>name</strong>: <%= user.name %><br>
+            <strong>email</strong>: <%= user.email %><br>
+            <strong>purchases</strong>: <%= user.purchases%><br>
+            <strong>password</strong>: <%= user.password %>
+        </p>
+
+    </div>
+</div>
+</body>
+</html>

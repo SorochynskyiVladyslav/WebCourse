@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Arcobaleno</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  <header id = "header">
+    <%if (!user){ %>
+    <h5><a href = "/register">Регистрация</a></h5>
+    <h5><a href = "/login">Вход</a></h5>
+    <%}%>
+    <% if (user){ %>
+    <h5><a href = "/profile">Профиль</a></h5>
+    <%}%>
+  </header>
+  <ul class = "navbar">
+    <li><a href = "/">Главная</a></li>
+    <li><a href = "/menu">Меню</a></li>
+      <%if  (user && !user.admin){%>
+    <li><a href = "#">Заказ</a></li>
+      <%}%>
+    <li><a href = "#">Контакты</a></li>
+  </ul>
+  <div class = "news">
+    <%if (user && user.admin){%>
+    <form action = "/addNews" method = "post">
+      Заголовок: <input type = "text" name = "heading"/><br>
+      Текст новости: <input type = "text" name = "text"/><br>
+      <input type = "submit" value = 'Добавить новость'/>
+    </form>
+    <%}%>
+    <%for (var i = news.length - 1; i >= 0; i--){%>
+      <%=news[i].heading%><br>
+      <%=news[i].text%><br><br>
+      <%if (user && user.admin){%>
+        <form action = "/deleteNews/<%=news[i]._id%>" method = "get">
+          <input type = "submit" value='Удалить новость'/>
+        </form><br>
+      <%}%>
+    <%}%>
+  </div>
   </body>
 </html>
