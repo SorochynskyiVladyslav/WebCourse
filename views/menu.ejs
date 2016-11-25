@@ -27,8 +27,15 @@
 <%for (var i = 0; i < salad.length; i++){%>
 <%=salad[i].name%>........<%=salad[i].price%> грн......<%=salad[i].weight%>г
 <%if (user && user.admin){%>
+<br>
 <form action = "/deleteDish/<%=salad[i]._id%>" method="get">
     <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%}
+ if (user && !user.admin) {%>
+<br>
+<form action = "/toCart/<%=salad[i]._id%>" method="get">
+    <input type = "submit" value = "Добавить в корзину"/>
 </form>
 <%}%>
 <br>
@@ -38,8 +45,15 @@
 <%for (var i = 0; i < hot.length; i++){%>
 <%=hot[i].name%>........<%=hot[i].price%> грн......<%=hot[i].weight%>г
 <%if (user && user.admin){%>
+<br>
 <form action = "/deleteDish/<%=hot[i]._id%>" method="get">
     <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%}
+if (user && !user.admin) {%>
+<br>
+<form action = "/toCart/<%=hot[i]._id%>" method="get">
+    <input type = "submit" value = "Добавить в корзину"/>
 </form>
 <%}%>
 <br>
@@ -49,8 +63,15 @@
 <%for (var i = 0; i < garnish.length; i++){%>
 <%=garnish[i].name%>........<%=garnish[i].price%> грн......<%=garnish[i].weight%>г
 <%if (user && user.admin){%>
+<br>
 <form action = "/deleteDish/<%=garnish[i]._id%>" method="get">
     <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%}
+if (user && !user.admin) {%>
+<br>
+<form action = "/toCart/<%=garnish[i]._id%>" method="get">
+    <input type = "submit" value = "Добавить в корзину"/>
 </form>
 <%}%>
 <br>
@@ -60,8 +81,14 @@
 <%for (var i = 0; i < dessert.length; i++){%>
 <%=dessert[i].name%>........<%=dessert[i].price%> грн......<%=dessert[i].weight%>г
 <%if (user && user.admin){%>
+<br>
 <form action = "/deleteDish/<%=dessert[i]._id%>" method="get">
     <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%} if (user && !user.admin) {%>
+<br>
+<form action = "/toCart/<%=dessert[i]._id%>" method="get">
+    <input type = "submit" value = "Добавить в корзину"/>
 </form>
 <%}%>
 <br>
@@ -71,8 +98,14 @@
 <%for (var i = 0; i < drink.length; i++){%>
 <%=drink[i].name%>........<%=drink[i].price%> грн......<%=drink[i].weight%>г
 <%if (user && user.admin){%>
+<br>
 <form action = "/deleteDish/<%=drink[i]._id%>" method="get">
     <input type = "submit" value = "Удалить блюдо"/>
+</form>
+<%} if (user && !user.admin) {%>
+<br>
+<form action = "/toCart/<%=drink[i]._id%>" method="get">
+    <input type = "submit" value = "Добавить в корзину"/>
 </form>
 <%}%>
 <br>

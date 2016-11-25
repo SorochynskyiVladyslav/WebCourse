@@ -24,15 +24,17 @@
   </ul>
   <div class = "news">
     <%if (user && user.admin){%>
-    <form action = "/addNews" method = "post">
+    <form action = "/addNews" method = "post" enctype="multipart/form-data">
       Заголовок: <input type = "text" name = "heading"/><br>
       Текст новости: <input type = "text" name = "text"/><br>
+      Картинка: <input type = 'file' name = 'picture'/><br>
       <input type = "submit" value = 'Добавить новость'/>
     </form>
     <%}%>
     <%for (var i = news.length - 1; i >= 0; i--){%>
       <%=news[i].heading%><br>
       <%=news[i].text%><br><br>
+      <img alt="" src='data:image/jpg;base64,<%= news[i].picture %>'>
       <%if (user && user.admin){%>
         <form action = "/deleteNews/<%=news[i]._id%>" method = "get">
           <input type = "submit" value='Удалить новость'/>

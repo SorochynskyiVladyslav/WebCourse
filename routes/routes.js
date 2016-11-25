@@ -95,12 +95,19 @@ module.exports = function(app, passport) {
     });
     /*Add news on the main page*/
     app.post('/addNews', function(req, res){
-        var newPost = {
-            heading : req.body.heading,
-            text : req.body.text
-        }
-        db.news.insert(newPost);
-        res.redirect('/');
+     var picture = req.files.picture;
+     var picture64string = picture.data.toString('base64');
+     var newPost = {
+     heading : req.body.heading,
+     text : req.body.text,
+     picture : picture64string
+     }
+     db.news.insert(newPost);
+     res.redirect('/');
+     })
+     /*Add menu to cart*/
+    app.get('/toCart/*', function (req, res){
+        res.redirect('/menu');
     })
     /*Delete post on the main page*/
     app.get('/deleteNews/*', function (req, res){
