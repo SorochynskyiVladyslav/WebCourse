@@ -2,38 +2,44 @@
 <html>
   <head>
     <title>Arcobaleno</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-  <header id = "header">
+  <header class = "btn-group" role = "group">
+    <ul class = "reglog">
     <%if (!user){ %>
-    <h5><a href = "/register">Регистрация</a></h5>
-    <h5><a href = "/login">Вход</a></h5>
+      <li><button type = "button" class = "btn btn-default"><a href = "/register">Регистрация</a></button></li>
+      <li><button type = "button" class = "btn btn-default"><a href = "/login">Вход</a></button></li>
     <%}%>
     <% if (user){ %>
-    <h5><a href = "/profile">Профиль</a></h5>
+      <li><button type = "button" class = "btn btn-default"><a href = "/profile">Профиль</a></button></li>
+      <li><button type = "button" class = "btn btn-default"><a href = "/logout">Выход</a></button></li>
     <%}%>
+    </ul>
   </header>
-  <ul class = "navbar">
+  <div class = "container">
+  <ul class = "nav nav-tabs nav-stacked" class = "navbar">
     <li><a href = "/">Главная</a></li>
     <li><a href = "/menu">Меню</a></li>
       <%if  (user && !user.admin){%>
-    <li><a href = "#">Заказ</a></li>
+    <li><a href = "/cart">Заказ</a></li>
       <%}%>
     <li><a href = "#">Контакты</a></li>
   </ul>
   <div class = "news">
     <%if (user && user.admin){%>
-    <form action = "/addNews" method = "post" enctype="multipart/form-data">
-      Заголовок: <input type = "text" name = "heading"/><br>
-      Текст новости: <input type = "text" name = "text"/><br>
-      Картинка: <input type = 'file' name = 'picture'/><br>
+    <form class="newPost" action = "/addNews" method = "post" enctype="multipart/form-data">
+      <h5>Заголовок:</h5> <input class = "headingPost" type = "text" name = "heading"/><br>
+      <h5>Текст новости:</h5> <input class="textPost" type = "text" name = "text"/><br>
+      <h5>Картинка:</h5> <input type = 'file' name = 'picture'/><br>
       <input type = "submit" value = 'Добавить новость'/>
     </form>
     <%}%>
     <%for (var i = news.length - 1; i >= 0; i--){%>
-      <%=news[i].heading%><br>
-      <%=news[i].text%><br><br>
+    <h3><%=news[i].heading%></h3><br>
+    <p><%=news[i].text%></p><br><br>
       <img alt="" src='data:image/jpg;base64,<%= news[i].picture %>'>
       <%if (user && user.admin){%>
         <form action = "/deleteNews/<%=news[i]._id%>" method = "get">
@@ -41,6 +47,7 @@
         </form><br>
       <%}%>
     <%}%>
+  </div>
   </div>
   </body>
 </html>

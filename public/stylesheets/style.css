@@ -3,6 +3,60 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+.nav {
+  width : 150px;
+}
+.container{
+  display: inline-block;
+}
+.navbar {
+  left : 0px;
+}
+#search-form {
+  display: inline-block;
+}
+
+#search-form li{
+  list-style-type: none;
+  display: inline-block;
+}
+#dishes li{
+  list-style-type: none;
+}
+.reglog li {
+  text-align: right;
+  list-style-type: none;
+  margin: 0;
+  padding: 15px;
+  width: 100%auto;
+}
+.reglog li {
+  display: inline-block;
+}
+
+.news {
+  position : relative;
+  left : 200px;
+  top : -130px;
+  width : 800px;
+}
+.profile{
+  position : relative;
+  left : 200px;
+  top : -130px;
+}
+.headingPost {
+  width : 800px;
+}
+.textPost {
+  width : 800px;
+  height : 150px;
+}
+.news img {
+  width : 800px;
+  height: 600px;
+}
+
 a {
   color: #00B7FF;
 }

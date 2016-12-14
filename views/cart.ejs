@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Arcobaleno</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+<header class = "btn-group" role = "group">
+    <ul class = "reglog">
+        <%if (!user){ %>
+        <li><button type = "button" class = "btn btn-default"><a href = "/register">Регистрация</a></button></li>
+        <li><button type = "button" class = "btn btn-default"><a href = "/login">Вход</a></button></li>
+        <%}%>
+        <% if (user){ %>
+        <li><button type = "button" class = "btn btn-default"><a href = "/profile">Профиль</a></button></li>
+        <%}%>
+    </ul>
+</header>
+<div class = "container">
+    <ul class = "nav nav-tabs nav-stacked" class = "navbar">
+        <li><a href = "/">Главная</a></li>
+        <li><a href = "/menu">Меню</a></li>
+        <%if  (user && !user.admin){%>
+        <li><a href = "#">Заказ</a></li>
+        <%}%>
+        <li><a href = "#">Контакты</a></li>
+    </ul>
+   <%for(var i = 0; i < cart.length; i++){%>
+
+    <%}%>
+</div>
+</body>
+</html>

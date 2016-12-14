@@ -1,13 +1,21 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
+var Schema = mongoose.Schema;
+
+var dishSchema = mongoose.Schema({
+    name : String,
+    price : Number
+})
+
 // define the schema for user model
 var userSchema = mongoose.Schema({
     name         : String,
     email        : String,
     password     : String,
     purchases    : Number,
-    admin        : Boolean
+    admin        : Boolean,
+    cart         : [dishSchema]
 });
 
 // generate a hash for password

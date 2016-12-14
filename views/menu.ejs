@@ -3,6 +3,10 @@
 <head>
     <title>Arcobaleno</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body>
 <header id = "header">
@@ -13,105 +17,117 @@
     <% if (user){ %>
     <h5><a href = "/profile">Профиль</a></h5>
     <%}%>
+    <br>
+    <form role="form" method="post" id="search-form">
+        <li class="form-group">
+            <input type="number" class="form-control"  name="search" placeholder="Цена блюда">
+        </li>
+        <li class="form-group">
+            <div id="search-button" type="submit" class="btn btn-primary">Найти по цене</div>
+        </li>
+    </form>
 </header>
 <ul id = "navbar">
     <li><a href = "/">Главная</a></li>
     <li><a href = "/menu">Меню</a></li>
         <%if  (user && !user.admin){%>
-    <li><a href = "#">Заказ</a></li>
+    <li><a href = "/cart">Заказ</a></li>
         <%}%>
     <li><a href = "#">Контакты</a></li>
 </ul>
 
-Салаты<br>
-<%for (var i = 0; i < salad.length; i++){%>
-<%=salad[i].name%>........<%=salad[i].price%> грн......<%=salad[i].weight%>г
 <%if (user && user.admin){%>
-<br>
-<form action = "/deleteDish/<%=salad[i]._id%>" method="get">
-    <input type = "submit" value = "Удалить блюдо"/>
-</form>
-<%}
- if (user && !user.admin) {%>
-<br>
-<form action = "/toCart/<%=salad[i]._id%>" method="get">
-    <input type = "submit" value = "Добавить в корзину"/>
-</form>
+Новое блюдо <br>
+<form action = "/addDish" method = "post" enctype="multipart/form-data">
+    <select size = "5" name = "type">
+        <option disabled>Выберите тип блюда</option>
+        <option value = "salad">Салат</option>
+        <option value = "hot">Горячее блюдо</option>
+        <option value = "garnish">Гарнир</option>
+        <option value = "dessert">Десерт</option>
+        <option value = "drink">Напиток</option>
+    </select><br>
+    Название: <input type = "text" name = "name"/><br>
+    Вес: <input type = "text" name = "weight"/><br>
+    Цена: <input type = "text" name = "price"/><br>
+    Картинка: <input type = 'file' name = 'picture'/><br>
+    <input type = "submit" value = 'Добавить блюдо'/>
+</form><br>
 <%}%>
-<br>
+
+
+<ol id="dishes">
+<%for (var i = 0; i < dishes.length; i++){%>
+    <li id="item">
+        <%=dishes[i].name%>........<%=dishes[i].price%> грн......<%=dishes[i].weight%>г<br>
+        <img alt="" src='data:image/jpg;base64,<%= dishes[i].picture %>'>
+        <%if (user && user.admin){%>
+        <br>
+        <form action = "/deleteDish/<%=dishes[i]._id%>" method="get">
+            <input type = "submit" value = "Удалить блюдо"/>
+        </form>
+        <%} if (user && !user.admin) {%>
+        <br>
+        <form action = "/toCart/<%=dishes[i]._id%>" method="get">
+            <input type = "submit" value = "Добавить в корзину"/>
+        </form>
+        <%}%>
+        <br>
+    </li>
+
 <%}%>
-<br>
-Горячие блюда<br>
-<%for (var i = 0; i < hot.length; i++){%>
-<%=hot[i].name%>........<%=hot[i].price%> грн......<%=hot[i].weight%>г
-<%if (user && user.admin){%>
-<br>
-<form action = "/deleteDish/<%=hot[i]._id%>" method="get">
-    <input type = "submit" value = "Удалить блюдо"/>
-</form>
-<%}
-if (user && !user.admin) {%>
-<br>
-<form action = "/toCart/<%=hot[i]._id%>" method="get">
-    <input type = "submit" value = "Добавить в корзину"/>
-</form>
-<%}%>
-<br>
-<%}%>
-<br>
-Гарниры<br>
-<%for (var i = 0; i < garnish.length; i++){%>
-<%=garnish[i].name%>........<%=garnish[i].price%> грн......<%=garnish[i].weight%>г
-<%if (user && user.admin){%>
-<br>
-<form action = "/deleteDish/<%=garnish[i]._id%>" method="get">
-    <input type = "submit" value = "Удалить блюдо"/>
-</form>
-<%}
-if (user && !user.admin) {%>
-<br>
-<form action = "/toCart/<%=garnish[i]._id%>" method="get">
-    <input type = "submit" value = "Добавить в корзину"/>
-</form>
-<%}%>
-<br>
-<%}%>
-<br>
-Десерты<br>
-<%for (var i = 0; i < dessert.length; i++){%>
-<%=dessert[i].name%>........<%=dessert[i].price%> грн......<%=dessert[i].weight%>г
-<%if (user && user.admin){%>
-<br>
-<form action = "/deleteDish/<%=dessert[i]._id%>" method="get">
-    <input type = "submit" value = "Удалить блюдо"/>
-</form>
-<%} if (user && !user.admin) {%>
-<br>
-<form action = "/toCart/<%=dessert[i]._id%>" method="get">
-    <input type = "submit" value = "Добавить в корзину"/>
-</form>
-<%}%>
-<br>
-<%}%>
-<br>
-Напитки<br>
-<%for (var i = 0; i < drink.length; i++){%>
-<%=drink[i].name%>........<%=drink[i].price%> грн......<%=drink[i].weight%>г
-<%if (user && user.admin){%>
-<br>
-<form action = "/deleteDish/<%=drink[i]._id%>" method="get">
-    <input type = "submit" value = "Удалить блюдо"/>
-</form>
-<%} if (user && !user.admin) {%>
-<br>
-<form action = "/toCart/<%=drink[i]._id%>" method="get">
-    <input type = "submit" value = "Добавить в корзину"/>
-</form>
-<%}%>
-<br>
-<%}%>
+</ol>
 <br>
 
+
+
+
+
+<script>
+    $( "#search-button" ).click(function() {
+        var params = $('#search-form').serialize();
+        var xhr;
+        if(params != 'search='){
+            xhr = new XMLHttpRequest();
+            xhr.open("GET", '/sortedDishes?' + params, true);
+        }
+        else{
+            xhr = new XMLHttpRequest();
+            xhr.open("GET", '/allDishes', true);
+        }
+        xhr.send();
+        xhr.onreadystatechange = function() {
+            if (xhr.status != 200) {
+                console.log("ERROR: " + xhr.status + ': ' + xhr.statusText);
+            } else if(xhr.responseText.length > 0 && xhr.readyState === XMLHttpRequest.DONE) {
+                console.log("SUCCESS");
+                var data = xhr.responseText;
+                var dishes = JSON.parse(data);
+                <%for (var i = 0; i < dishes.length; i++){%>
+                    $('#item').remove();
+                <%}%>
+                for (var i = 0; i < dishes.length; i++){
+                    $('#dishes').append('<li id="item">' +
+                            dishes[i].name + '........' + dishes[i].price + ' грн......' + dishes[i].weight + 'г<br>' +
+                    '<img alt="" src=data:image/jpg;base64,' + dishes[i].picture + '>' +
+                            '<%if (user && user.admin){%>' +
+                        '<br>' +
+                        '<form action = "/deleteDish/' + dishes[i]._id + '" method="get">' +
+                        '<input type = "submit" value = "Удалить блюдо"/>' +
+                        '</form>' +
+                            '<%} if (user && !user.admin) {%>' +
+                        '<form action = "/toCart/' + dishes[i]._id + '" method="get">' +
+                        '<br>' +
+                        '<input type = "submit" value = "Добавить в корзину"/>' +
+                        '</form>' +
+                            '<%}%>' +
+                        '<br>' +
+                        '</li>');
+                }
+            }
+        }
+    });
+</script>
 
 
 </body>
