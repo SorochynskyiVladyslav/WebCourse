@@ -2,22 +2,22 @@
 <html>
 <head>
     <title>Arcobaleno</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <style>
     body        { padding-top:80px; word-wrap:break-word; }
 </style>
 <body>
-<header id = "header">
+<header class = "btn-group" role = "group">
     <ul class = "reglog">
         <li><a href = "/profile"><button type = "button" class = "btn btn-default">Профиль</button></a></li>
         <li><a href = "/logout"><button type = "button" class = "btn btn-default">Выход</button></a></li>
     </ul>
 </header>
 <div class="container">
-<ul class = "nav nav-tabs nav-stacked" class = "navbar">
+<ul class = "nav navbar-nav">
     <li><a href = "/">Главная</a></li>
     <li><a href = "/menu">Меню</a></li>
     <%if  (user && !user.admin){%>
@@ -26,7 +26,7 @@
     <li><a href = "/contacts">Контакты</a></li>
 </ul>
 <div class="col-sm-6" >
-    <div class="well" class="profile">
+    <div class="well profile">
         <h3><span class="fa fa-user">Профиль</span></h3>
         <p>
             <strong>Имя</strong>: <%= user.name %><br>

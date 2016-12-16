@@ -9,7 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body>
-<header id = "header">
+<header class = "btn-group" role = "group">
     <ul class = "reglog">
         <%if (!user){ %>
         <li><a href = "/register"><button type = "button" class = "btn btn-default">Регистрация</button></a></li>
@@ -20,7 +20,6 @@
         <li><a href = "/logout"><button type = "button" class = "btn btn-default">Выход</button></a></li>
         <%}%>
     </ul>
-    <br>
     <form role="form" method="post" id="search-form">
         <li class="form-group">
             <input type="number" class="form-control"  name="search" placeholder="Цена блюда">
@@ -30,7 +29,7 @@
         </li>
     </form>
 </header>
-<ul class = "nav nav-tabs nav-stacked" class = "navbar">
+<ul class = "nav navbar-nav">
     <li><a href = "/">Главная</a></li>
     <li><a href = "/menu">Меню</a></li>
     <%if  (user && !user.admin){%>
@@ -40,9 +39,9 @@
 </ul>
 
 <%if (user && user.admin){%>
-Новое блюдо <br>
 <div id="dishes">
-<form action = "/addDish" method = "post" enctype="multipart/form-data">
+    <h4>Новое блюдо:</h4><br>
+<form action = "/addDish" id="newDish" class = "btn btn-default" method = "post" enctype="multipart/form-data">
     <select size = "5" name = "type">
         <option disabled>Выберите тип блюда</option>
         <option value = "salad">Салат</option>
@@ -54,7 +53,7 @@
     Название: <input type = "text" name = "name"/><br>
     Вес: <input type = "text" name = "weight"/><br>
     Цена: <input type = "text" name = "price"/><br>
-    Картинка: <input type = 'file' class = "btn btn-default" name = 'picture'/><br>
+    Картинка: <input type = 'file' name = 'picture'/><br>
     <input type = "submit" class="btn btn-primary" value = 'Добавить блюдо'/>
 </form><br></div>
 <%}%>
@@ -62,8 +61,8 @@
 
 <ol id="dishes">
 <%for (var i = 0; i < dishes.length; i++){%>
-    <li id="item">
-        <%=dishes[i].name%>........<%=dishes[i].price%> грн......<%=dishes[i].weight%>г<br>
+    <li id="item" class="col-sm-6" >
+        <h4><%=dishes[i].name%>........<%=dishes[i].price%> грн......<%=dishes[i].weight%>г</h4>><br>
         <img alt="" src='data:image/jpg;base64,<%= dishes[i].picture %>'>
         <%if (user && user.admin){%>
         <br>
@@ -73,7 +72,7 @@
         <%} if (user && !user.admin) {%>
         <br>
         <form action = "/toCart/<%=dishes[i]._id%>" method="get">
-            <input type = "submit" class = "btn btn-default" value = "Добавить в корзину"/>
+            <input type = "submit" class = "alert alert-danger" value = "Добавить в корзину"/>
         </form>
         <%}%>
         <br>
@@ -111,8 +110,8 @@
                     $('#item').remove();
                 <%}%>
                 for (var i = 0; i < dishes.length; i++){
-                    $('#dishes').append('<li id="item">' +
-                            dishes[i].name + '........' + dishes[i].price + ' грн......' + dishes[i].weight + 'г<br>' +
+                    $('#dishes').append('<li id="item" class="col-sm-6"><h4>' +
+                            dishes[i].name + '........' + dishes[i].price + ' грн......' + dishes[i].weight + 'г</h4><br>' +
                     '<img alt="" src=data:image/jpg;base64,' + dishes[i].picture + '>' +
                             '<%if (user && user.admin){%>' +
                         '<br>' +
@@ -122,7 +121,7 @@
                             '<%} if (user && !user.admin) {%>' +
                         '<form action = "/toCart/' + dishes[i]._id + '" method="get">' +
                         '<br>' +
-                        '<input type = "submit" class = "btn btn-default" value = "Добавить в корзину"/>' +
+                        '<input type = "submit" class = "alert alert-danger" value = "Добавить в корзину"/>' +
                         '</form>' +
                             '<%}%>' +
                         '<br>' +

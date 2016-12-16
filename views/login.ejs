@@ -3,30 +3,31 @@
 <head>
     <title>Arcobaleno</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 </head>
 <body>
-<header id = "header">
-    <ul class="reglog">
+<header class = "btn-group" role = "group">
+    <ul class="reglog2">
     <li><a href = "/register"><button type = "button" class = "btn btn-default">Регистрация</button></a></li>
     <li><a href = "/login"><button type = "button" class = "btn btn-default">Вход</button></a></li>
     </ul>
 </header>
 
-<ul class = "nav nav-tabs nav-stacked" class = "navbar">
+<ul class = "nav navbar-nav">
     <li><a href = "/">Главная</a></li>
     <li><a href = "/menu">Меню</a></li>
     <li><a href = "/contacts">Контакты</a></li>
 </ul>
 
-<div class="col-sm-6 col-sm-offset-3">
+<div class="col-sm-6 col-sm-offset-3 sign">
+    <h1><span class="fa fa-sign-in"></span> Вход</h1>
     <% if (message.length > 0) { %>
     <div class="alert alert-danger"><%= message %></div>
     <% } %>
     <form action='/login' method = 'POST'>
-        E-mail: <input type = 'text' name = 'email'/><br/>
-        Пароль: <input type = 'password' name = 'password' /><br/>
+        <label>E-mail:</label> <input class="form-control" type = 'text' name = 'email'/><br/>
+        <label>Пароль:</label> <input class="form-control" type = 'password' name = 'password' /><br/>
         <input type="submit" class="btn btn-warning btn-lg" value='Вход'/>
     </form>
 

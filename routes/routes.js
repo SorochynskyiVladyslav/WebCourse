@@ -127,6 +127,24 @@ module.exports = function(app, passport) {
         .catch(function(err){console.log(err);});
         res.redirect('/menu');
     })
+
+    app.get('/inCart', function(req, res){
+        var key = req.query.dishID;
+        db.menu.findOne({_id : mongodb.ObjectId(key)})
+            .then(function(doc){
+                var dishName = doc.name;
+                db.users.update({email : req.user.email}, {$push: {"cart": dishName}})
+                    .then(function(req, res){
+                        res.send('1');
+                    })
+                    .catch(function(req, res){
+                        res.status(500).end(err);
+                    })
+            })
+            .catch(function(err){console.log(err);});
+
+        })
+
     app.get('/cart', function(req, res){
         db.users.findOne({email: req.user.email})
             .then (function(docs){

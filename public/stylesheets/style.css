@@ -5,59 +5,106 @@ body {
 
 .nav {
   width : 150px;
+  position: fixed;
 }
 .container{
   display: inline-block;
 }
-.navbar {
-  left : 0px;
+.nav {
+  left : 10px;
+  width: 150px;
+  height: 100%;
+  background: lavender;
 }
+.nav li {
+  width: 150px;
+}
+
 #search-form {
   display: inline-block;
+
+  position: relative;
+  left: 150%;
+}
+
+.profile {
+  position: absolute;
+  left : 200px;
+  top : 40px;
+  width : 800px;
 }
 
 #search-form li{
   list-style-type: none;
   display: inline-block;
 }
-#dishes li{
-  list-style-type: none;
-}
+
 .reglog li {
   text-align: right;
+  display: inline-block;
   list-style-type: none;
   margin: 0;
   padding: 15px;
-  width: 100%auto;
 }
-.reglog li {
+.reglog {
+    position: relative;
+    left: 300%;
+  }
+
+.reglog2 li {
+  text-align: right;
   display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  padding: 15px;
+}
+.reglog2 {
+  position: relative;
+  left: 10%;
+}
+.sign {
+  position: relative;
+  top: 80px;
 }
 
 .news {
   position : relative;
   left : 200px;
-  top : -130px;
+  top : 40px;
+  width : 800px;
+}
+.cart {
+  position : relative;
+  left : 200px;
+  top : 40px;
   width : 800px;
 }
 #dishes {
   position : relative;
   left : 200px;
-  top : -130px;
+  top : 40px;
   width : 800px;
   text-align: center;
 }
 #dishes li {
   text-align: center;
+  list-style-type: none;
+  display: inline-block;
+  width: 250px;
+  height: 250px;
+  background: peachpuff;
 }
 #dishes li img{
   width : 200px;
   height: 100px;
 }
-.profile{
+#profile{
   position : relative;
-  left : 200px;
+  left : 300px;
   top : -130px;
+}
+#newDish {
+  text-align: center;
 }
 .headingPost {
   width : 800px;
