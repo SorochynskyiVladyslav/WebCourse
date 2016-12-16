@@ -10,6 +10,7 @@ var mongoose = require ('mongoose');
 var passport = require('passport');
 var busboyBodyParser = require('busboy-body-parser');
 var mongoUrl = 'mongodb://localhost:27017/users';
+//var mongoUrl = 'mongodb://vlad:vlad@ds133328.mlab.com:33328/web_course';
 mongoose.connect(mongoUrl);
 var app = express();
 
