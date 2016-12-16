@@ -12,8 +12,8 @@
 <body>
 <header id = "header">
     <ul class = "reglog">
-        <li><button type = "button" class = "btn btn-default"><a href = "/profile">Профиль</a></button></li>
-        <li><button type = "button" class = "btn btn-default"><a href = "/logout">Выход</a></button></li>
+        <li><a href = "/profile"><button type = "button" class = "btn btn-default">Профиль</button></a></li>
+        <li><a href = "/logout"><button type = "button" class = "btn btn-default">Выход</button></a></li>
     </ul>
 </header>
 <div class="container">
@@ -23,7 +23,7 @@
     <%if  (user && !user.admin){%>
     <li><a href = "/cart">Заказ</a></li>
     <%}%>
-    <li><a href = "#">Контакты</a></li>
+    <li><a href = "/contacts">Контакты</a></li>
 </ul>
 <div class="col-sm-6" >
     <div class="well" class="profile">
@@ -31,7 +31,7 @@
         <p>
             <strong>Имя</strong>: <%= user.name %><br>
             <strong>E-mail</strong>: <%= user.email %><br>
-            <strong>Покупки</strong>: <%= user.purchases%><br>
+            <strong>Покупки</strong>: <%= user.purchases%> грн<br>
         </p>
     </div>
 </div>

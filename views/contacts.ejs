@@ -28,17 +28,8 @@
         <%}%>
         <li><a href = "/contacts">Контакты</a></li>
     </ul>
-    <div class="cart">
-   <%for(var i = 0; i < cart.length; i++){%>
-        <%=cart[i].name%> ......... <%=cart[i].price%>грн<br>
-    <%}%>
-        <br>
-        <%var sum = 0;
-        for (var i = 0; i < cart.length; i++){
-            sum += cart[i].price;
-        }%>
-        Итого: <%=sum%><br>
-        <a href = "/buy"><button>Купить</button></a>
+    <div class = "info">
+        <p>Сайт разработан, как курсовая работа студента КПИ. Еду здесь заказать нельзя. Если что это ФПМ.</p><br>
     </div>
 </div>
 </body>

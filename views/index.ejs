@@ -10,12 +10,12 @@
   <header class = "btn-group" role = "group">
     <ul class = "reglog">
     <%if (!user){ %>
-      <li><button type = "button" class = "btn btn-default"><a href = "/register">Регистрация</a></button></li>
-      <li><button type = "button" class = "btn btn-default"><a href = "/login">Вход</a></button></li>
+      <li><a href = "/register"><button type = "button" class = "btn btn-default">Регистрация</button></a></li>
+      <li><a href = "/login"><button type = "button" class = "btn btn-default">Вход</button></a></li>
     <%}%>
     <% if (user){ %>
-      <li><button type = "button" class = "btn btn-default"><a href = "/profile">Профиль</a></button></li>
-      <li><button type = "button" class = "btn btn-default"><a href = "/logout">Выход</a></button></li>
+      <li><a href = "/profile"><button type = "button" class = "btn btn-default">Профиль</button></a></li>
+      <li><a href = "/logout"><button type = "button" class = "btn btn-default">Выход</button></a></li>
     <%}%>
     </ul>
   </header>
@@ -26,7 +26,7 @@
       <%if  (user && !user.admin){%>
     <li><a href = "/cart">Заказ</a></li>
       <%}%>
-    <li><a href = "#">Контакты</a></li>
+    <li><a href = "/contacts">Контакты</a></li>
   </ul>
   <div class = "news">
     <%if (user && user.admin){%>

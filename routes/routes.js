@@ -29,6 +29,11 @@ module.exports = function(app, passport) {
             })
         });
     });
+    app.get('/contacts', function(req, res, next){
+        res.render('contacts', {
+            user : req.user
+        });
+    })
     /*Profile page, register and login*/
     app.get('/register', function(req, res) {
         res.render('register', { message: req.flash('signupMessage') });
@@ -123,7 +128,57 @@ module.exports = function(app, passport) {
         res.redirect('/menu');
     })
     app.get('/cart', function(req, res){
-
+        db.users.findOne({email: req.user.email})
+            .then (function(docs){
+                var cart = docs.cart;
+                var result = [];
+                db.menu.find().toArray()
+                    .then(function(doc){
+                        for (var i = 0; i < cart.length; i++){
+                            for (var j = 0; j < doc.length; j++){
+                                if (cart[i] == doc[j].name) {
+                                    var dish = {name : doc[j].name,
+                                    price: doc[j].price}
+                                    result.push(dish);
+                                    continue;
+                                }
+                            }
+                        }
+                        res.render('cart', {
+                            user : req.user,
+                            cart : result
+                        });
+                    })
+            })
+    })
+    app.get('/buy', function(req, res){
+        db.users.findOne({email : req.user.email})
+            .then(function(docs){
+                var cart = docs.cart;
+                var result = [];
+                db.menu.find().toArray()
+                    .then(function(doc){
+                        for (var i = 0; i < cart.length; i++){
+                            for (var j = 0; j < doc.length; j++){
+                                if (cart[i] == doc[j].name) {
+                                    var dish = {name : doc[j].name,
+                                        price: doc[j].price}
+                                    result.push(dish);
+                                    continue;
+                                }
+                            }
+                        }
+                        var sum = 0;
+                        for(var i = 0; i < result.length; i++){
+                            sum += result[i].price;
+                        }
+                        db.users.update({email : req.user.email}, {$set:{"cart":[]}, $inc:{"purchases":sum}})
+                            .then(function(req, res){
+                                res.redirect('/profile');
+                            })
+                    })
+            })
+        res.redirect('/profile');
     })
     /*Delete post on the main page*/
     app.get('/deleteNews/*', function (req, res){
@@ -152,7 +207,6 @@ module.exports = function(app, passport) {
                 res.send(JSON.stringify(docs));
             })
     })
-
 
 
     app.get('/api/dishes', function (req, res) {
@@ -210,7 +264,7 @@ module.exports = function(app, passport) {
                 throw err;
         });
     })
-    app.update('/api/users/:user_id', function (req, res){
+    app.put('/api/users/:user_id', function (req, res){
         var key = req.params.user_id;
         db.users.update({_id : mongodb.ObjectId(key)}, {$set : {admin : req.body.admin}})
             .then (function(req, res){
@@ -220,7 +274,7 @@ module.exports = function(app, passport) {
             res.json({response : 0});
             })
     })
-    app.remove('/api/users/:user_id', function(req, res){
+    app.delete('/api/users/:user_id', function(req, res){
         db.users.remove({_id : req.params.user_id})
             .then (function(req, res){
                 res.json({response : 1});
@@ -230,7 +284,6 @@ module.exports = function(app, passport) {
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
-
     // if user is authenticated in the session, carry on
     if (req.isAuthenticated())
         return next();

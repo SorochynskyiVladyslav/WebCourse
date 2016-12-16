@@ -30,7 +30,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-
 require('./passport')(passport);
 app.set('view engine', 'ejs');
 

@@ -8,24 +8,26 @@
 </head>
 <body>
 <header id = "header">
-    <h5><a href = "/register">Регистрация</a></h5>
-    <h5><a href = "/login">Вход</a></h5>
+    <ul class="reglog">
+    <li><a href = "/register"><button type = "button" class = "btn btn-default">Регистрация</button></a></li>
+    <li><a href = "/login"><button type = "button" class = "btn btn-default">Вход</button></a></li>
+    </ul>
 </header>
 
-<div class = "navbar">
-    <a href = "/">Главная</a>
-    <a href = "/menu">Меню</a>
-    <a href = "#">Контакты</a>
-</div>
+<ul class = "nav nav-tabs nav-stacked" class = "navbar">
+    <li><a href = "/">Главная</a></li>
+    <li><a href = "/menu">Меню</a></li>
+    <li><a href = "/contacts">Контакты</a></li>
+</ul>
 
-<div class = "registration">
+<div class="col-sm-6 col-sm-offset-3">
     <% if (message.length > 0) { %>
     <div class="alert alert-danger"><%= message %></div>
     <% } %>
     <form action='/login' method = 'POST'>
         E-mail: <input type = 'text' name = 'email'/><br/>
         Пароль: <input type = 'password' name = 'password' /><br/>
-        <input type="submit" value='Вход'/>
+        <input type="submit" class="btn btn-warning btn-lg" value='Вход'/>
     </form>
 
 </div>

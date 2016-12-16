@@ -40,6 +40,20 @@ body {
   top : -130px;
   width : 800px;
 }
+#dishes {
+  position : relative;
+  left : 200px;
+  top : -130px;
+  width : 800px;
+  text-align: center;
+}
+#dishes li {
+  text-align: center;
+}
+#dishes li img{
+  width : 200px;
+  height: 100px;
+}
 .profile{
   position : relative;
   left : 200px;
