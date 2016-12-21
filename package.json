@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "assert": "^1.4.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "~1.15.2",
     "busboy-body-parser": "^0.2.0",
@@ -16,11 +17,17 @@
     "ejs": "~2.5.2",
     "express": "~4.14.0",
     "express-session": "^1.14.2",
-    "mongoose": "^4.6.8",
+    "mongodb": "^2.2.16",
+    "mongoose": "^4.7.4",
     "morgan": "~1.7.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "promised-mongo": "^1.2.0",
     "req-flash": "0.0.3",
     "serve-favicon": "~2.3.0"
+  },
+  "engines": {
+    "node": "6.5.x",
+    "npm": "3.10.x"
   }
 }

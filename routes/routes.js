@@ -1,34 +1,40 @@
 module.exports = function(app, passport) {
     var User = require('../models/user');
-    var mongodb = require('promised-mongo');
+    var bcrypt   = require('bcrypt-nodejs');
+    var mongodb = require('mongodb');
     //var mongoUrl = 'mongodb://localhost:27017/users';
     var mongoUrl = 'mongodb://vlad:vlad@ds133328.mlab.com:33328/web_course';
-    var db = mongodb(mongoUrl);
-    var menu = db.collection('menu');
-    var news = db.collection('news');
-    var users = db.collection('users');
     var ObjectId = require('mongodb').ObjectID;
+
+    var mongo = require('mongodb').MongoClient;
+
 
     /*Get home page*/
     app.get('/', function(req, res) {
-        db.news.find().toArray().then(function(docs){
-            res.render('index', {
-                user : req.user,
-                news : docs
-            })
+        mongo.connect(mongoUrl, function(err, db){
+            var news = db.collection('news');
+            news.find({}).toArray(function(err, docs) {
+                if (err)
+                    res.render('error', {message : err.message, error:err});
+                res.render('index', {
+                    user : req.user,
+                    news : docs
+                })
+            });
         })
     });
-
-
-
     app.get('/menu', function(req, res, next) {
-        var salad, hot, garnish, dessert, drink;
-        db.menu.find().toArray().then(function(docs){
-            res.render('menu', {
-                user: req.user,
-                dishes : docs
-            })
-        });
+        mongo.connect(mongoUrl, function(err, db){
+            var menu = db.collection('menu');
+            menu.find({}).toArray(function(err, docs) {
+                if (err)
+                    res.render('error', {message : err.message, error:err});
+                res.render('menu', {
+                    user : req.user,
+                    dishes : docs
+                })
+            });
+        })
     });
     app.get('/contacts', function(req, res, next){
         res.render('contacts', {
@@ -88,216 +94,207 @@ module.exports = function(app, passport) {
     app.post('/addNews', function(req, res){
      var picture = req.files.picture;
      var picture64string = picture.data.toString('base64');
-     var newPost = {
-     heading : req.body.heading,
-     text : req.body.text,
-     picture : picture64string
-     }
-     db.news.insert(newPost);
-     res.redirect('/');
+     mongo.connect(mongoUrl, function(err, db){
+         var news = db.collection('news');
+         console.log("Connected to database!");
+         news.insert({
+             heading : req.body.heading,
+             text : req.body.text,
+             picture : picture64string
+         },
+             (function(err, docs) {
+                if (err)
+                     res.render('error', {message : err.message, error:err});
+                else
+                    res.redirect('/');
+         }));
+        })
      })
     app.post('/addDish', function (req, res){
         var picture = req.files.picture;
         var picture64string = picture.data.toString('base64');
         var type = req.body.type;
-        var newDish = {
-            type : type,
-            name : req.body.name,
-            price : req.body.price,
-            weight : req.body.weight,
-            picture : picture64string
-        }
-        db.menu.insert(newDish);
-        res.redirect('/menu');
-    })
-     /*Add dish to cart*/
-    app.get('/toCart/*', function (req, res){
-        var key = req.path;
-        key = key.slice(8);
-        db.menu.findOne({_id : mongodb.ObjectId(key)})
-            .then(function(doc){
-               var dishName = doc.name;
-               db.users.update({email : req.user.email}, {$push: {"cart": dishName}})
-                   .then(function(req, res){
-                       res.redirect('/menu');
-                   })
-                   .catch(function(req, res){
-                       res.status(500).end(err);
-                   })
-            })
-        .catch(function(err){console.log(err);});
-        res.redirect('/menu');
-    })
 
-    app.get('/inCart', function(req, res){
-        var key = req.query.dishID;
-        db.menu.findOne({_id : mongodb.ObjectId(key)})
-            .then(function(doc){
-                var dishName = doc.name;
-                db.users.update({email : req.user.email}, {$push: {"cart": dishName}})
-                    .then(function(req, res){
-                        res.send('1');
-                    })
-                    .catch(function(req, res){
-                        res.status(500).end(err);
-                    })
-            })
-            .catch(function(err){console.log(err);});
-
+        mongo.connect(mongoUrl, function(err, db){
+            var menu = db.collection('menu');
+            console.log("Connected to database!");
+            menu.insert({
+                    type : type,
+                    name : req.body.name,
+                    price : req.body.price,
+                    weight : req.body.weight,
+                    picture : picture64string
+                },
+                (function(err) {
+                    if (err) res.render('error', {message : err.message, error:err});
+                    else res.redirect('/menu');
+                }));
         })
-
+    })
+    app.get('/toCart/:dish_id', function (req, res){
+        mongo.connect(mongoUrl, function(err, db){
+            var menu = db.collection('menu');
+            var users = db.collection('users');
+            menu.findOne({_id : ObjectId(req.params.dish_id)},
+                function(err, doc) {
+                    if (err) res.render('error', {message : err.message, error:err});
+                    var dishName = doc.name;
+                    users.updateOne({email : req.user.email}, {$push: {"cart": dishName}},
+                        function(err){
+                            if (err) res.render('error', {message : err.message, error:err});
+                            else res.redirect('/menu');
+                        });
+                });
+        })
+    })
     app.get('/cart', function(req, res){
-        db.users.findOne({email: req.user.email})
-            .then (function(docs){
+        mongo.connect(mongoUrl, function(err, db){
+            var users = db.collection('users');
+            var menu = db.collection('menu');
+            users.findOne({_id : ObjectId(req.user._id)},
+            function (err, docs){
                 var cart = docs.cart;
                 var result = [];
-                db.menu.find().toArray()
-                    .then(function(doc){
-                        for (var i = 0; i < cart.length; i++){
-                            for (var j = 0; j < doc.length; j++){
-                                if (cart[i] == doc[j].name) {
-                                    var dish = {name : doc[j].name,
+                menu.find({}).toArray(function(err, doc){
+                    for (var i = 0; i < cart.length; i++){
+                        for (var j = 0; j < doc.length; j++){
+                            if (cart[i] == doc[j].name) {
+                                var dish = {name : doc[j].name,
                                     price: doc[j].price}
-                                    result.push(dish);
-                                    continue;
-                                }
+                                result.push(dish);
+                                continue;
                             }
                         }
-                        res.render('cart', {
-                            user : req.user,
-                            cart : result
-                        });
-                    })
+                    }
+                    res.render('cart', {
+                        user : req.user,
+                        cart : result
+                    });
+                })
             })
+        })
     })
     app.get('/buy', function(req, res){
-        db.users.findOne({email : req.user.email})
-            .then(function(docs){
-                var cart = docs.cart;
-                var result = [];
-                db.menu.find().toArray()
-                    .then(function(doc){
-                        for (var i = 0; i < cart.length; i++){
-                            for (var j = 0; j < doc.length; j++){
-                                if (cart[i] == doc[j].name) {
-                                    var dish = {name : doc[j].name,
-                                        price: doc[j].price}
-                                    result.push(dish);
-                                    continue;
-                                }
+        mongo.connect(mongoUrl, function(err, db){
+            var users = db.collection('users');
+            var menu = db.collection('menu');
+            users.findOne({_id : ObjectId(req.user._id)},
+                function (err, docs){
+                    var cart = docs.cart;
+                    var result = [];
+                    menu.find({}).toArray(function(err, doc){
+                    for (var i = 0; i < cart.length; i++){
+                        for (var j = 0; j < doc.length; j++){
+                            if (cart[i] == doc[j].name) {
+                                var dish = {name : doc[j].name,
+                                    price: doc[j].price}
+                                result.push(dish);
+                                continue;
                             }
                         }
-                        var sum = 0;
-                        for(var i = 0; i < result.length; i++){
-                            sum += result[i].price;
-                        }
-                        db.users.update({email : req.user.email}, {$set:{"cart":[]}, $inc:{"purchases":sum}})
-                            .then(function(req, res){
-                                res.redirect('/profile');
-                            })
+                    }
+                    var sum = 0;
+                    for(var i = 0; i < result.length; i++){
+                        sum += result[i].price;
+                    }
+                    users.updateOne({_id : ObjectId(req.user._id)}, {$set:{"cart":[]}, $inc:{"purchases":sum}},
+                        function(err){
+                        if (err) res.render('error', {message : err.message, error:err});
                     })
-            })
-        res.redirect('/profile');
+                    var orders = db.collection('orders');
+                    orders.insert({
+                        user : req.user._id,
+                        cart : result,
+                        sum : sum
+                    }, function(err){
+                        if (err) res.render('error', {message : err.message, error:err});
+                        else res.redirect('/profile');
+                    })
+                    })
+                })
+        })
     })
-    /*Delete post on the main page*/
     app.get('/deleteNews/*', function (req, res){
         var key = req.path;
         key = key.slice(12);
-        db.news.remove({_id : mongodb.ObjectId(key)} );
-        res.redirect('/');
+        mongo.connect(mongoUrl, function(err, db){
+            var news = db.collection('news');
+            news.deleteOne({ _id: ObjectId(key) },(function(err) {
+                if (err)
+                    res.render('error', {message : err.message, error:err});
+                else res.redirect('/');
+            }));
+        })
     })
     app.get('/deleteDish/*', function (req, res){
         var key = req.path;
         key = key.slice(12);
-        db.menu.remove({_id : mongodb.ObjectId(key)} );
-        res.redirect('/menu');
+        mongo.connect(mongoUrl, function(err, db){
+            var menu = db.collection('menu');
+            menu.deleteOne({ _id: ObjectId(key) },(function(err) {
+                if (err)
+                    res.render('error', {message : err.message, error:err});
+                else res.redirect('/menu');
+            }));
+        })
     })
-
     app.get('/sortedDishes', function(req, res){
-        var key = req.query.search;
-        db.menu.find({ price : { $lte : parseInt(key)}}).toArray().then (function(docs){
-                console.log(JSON.stringify(docs));
+        mongo.connect(mongoUrl, function(err, db){
+            var menu = db.collection('menu');
+            menu.find({type : req.query.type}).toArray(function(err, docs) {
+                if (err) res.render('error', {message : err.message, error:err});
                 res.send(JSON.stringify(docs));
+            });
         })
     })
     app.get('/allDishes', function(req, res){
-        db.menu.find().toArray()
-            .then (function(docs){
+        mongo.connect(mongoUrl, function(err, db){
+            var menu = db.collection('menu');
+            menu.find({}).toArray(function(err, docs) {
+                if (err) res.render('error', {message : err.message, error:err});
                 res.send(JSON.stringify(docs));
-            })
-    })
-
-
-    app.get('/api/dishes', function (req, res) {
-        db.menu.find().toArray().then(function(docs){
-        var menu = [];
-        for (var i = 0; i < docs.length; i++){
-            var dish = {
-                _id : docs[i]._id,
-                type : docs[i].type,
-                name : docs[i].name,
-                price : docs[i].price,
-                weight : docs[i].weight
-            }
-            menu.push(dish);
-        }
-        res.json(menu);
-    });
-    })
-    app.post('/api/dishes', function(req, res){
-        var newDish = {
-            name: req.body.name,
-            type : req.body.type,
-            price : req.body.price,
-            weight : req.body.weight
-        }
-        db.menu.insert(newDish);
-        res.redirect('/api/dishes');
-    })
-    app.get('/api/dishes/:dish_id', function(req, res){
-        var key = req.params.dish_id;
-        console.log(key);
-        db.menu.findOne({_id : mongodb.ObjectId(key)} ).then(function(docs){
-           res.json(docs);
-        });
+            });
+        })
     })
     app.get('/api/users/:user_id', function(req, res){
-        var key = req.params.user_id;
-        console.log(key);
-        db.users.findOne({_id : mongodb.ObjectId(key)} ).then(function(docs){
-            res.json(docs);
-        });
+        mongo.connect(mongoUrl, function(err, db){
+            var users = db.collection('users');
+            users.findOne({_id : ObjectId(req.params.user_id)}, function(err, docs) {
+                if (err) res.json(err);
+                else res.json(docs);
+            });
+        })
     })
     app.post('/api/users', function(req, res){
-        var newUser = new User();
-        // set the user's credentials
-        newUser.email    = req.body.email;
-        newUser.password = newUser.generateHash(req.body.password);
-        newUser.name = req.body.name;
-        newUser.admin = false;
-        newUser.purchases = 0;
-        newUser.cart = [];
-        // save the user
-        newUser.save(function(err) {
-            if (err)
-                throw err;
-        });
+        mongo.connect(mongoUrl, function(err, db){
+            var users = db.collection('users');
+            users.insert({purchases: 0, admin: false, name: req.body.name,
+                    password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8), null),
+                    email: req.body.email, cart: []},
+                function(err){
+                    if (err) res.json(err);
+                    else res.json({response:1});
+                });
+        })
     })
     app.put('/api/users/:user_id', function (req, res){
-        var key = req.params.user_id;
-        db.users.update({_id : mongodb.ObjectId(key)}, {$set : {admin : req.body.admin}})
-            .then (function(req, res){
-            res.json({response : 1});
+        mongo.connect(mongoUrl, function(err, db){
+            var users = db.collection('users');
+            users.updateOne({_id : ObjectId(req.params.user._id)}, {$set:{admin : req.body.admin}},
+                function(err){
+                    if (err) res.json(err);
+                    else res.json({response:1});
+                });
         })
-            .catch(function(req, res){
-            res.json({response : 0});
-            })
     })
     app.delete('/api/users/:user_id', function(req, res){
-        db.users.remove({_id : req.params.user_id})
-            .then (function(req, res){
-                res.json({response : 1});
-            })
+        mongo.connect(mongoUrl, function(err, db){
+            var users = db.collection('users');
+            users.deleteOne({_id : ObjectId(req.params.user._id)}, function(err) {
+                if (err) res.json(err);
+                else res.json({response : 1});
+            });
+        })
     })
 };
 

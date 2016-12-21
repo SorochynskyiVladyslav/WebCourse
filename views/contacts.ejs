@@ -10,12 +10,12 @@
 <header class = "btn-group" role = "group">
     <ul class = "reglog">
         <%if (!user){ %>
-        <li><a href = "/register"><button type = "button" class = "btn btn-default">Регистрация</button></a></li>
-        <li><a href = "/login"><button type = "button" class = "btn btn-default">Вход</button></a></li>
+        <li><a href = "/register"><button type = "button" class = "btn btn-default btn-md">Регистрация</button></a></li>
+        <li><a href = "/login"><button type = "button" class = "btn btn-default btn-md">Вход</button></a></li>
         <%}%>
         <% if (user){ %>
-        <li><a href = "/profile"><button type = "button" class = "btn btn-default">Профиль</button></a></li>
-        <li><a href = "/logout"><button type = "button" class = "btn btn-default">Выход</button></a></li>
+        <li><a href = "/profile"><button type = "button" class = "btn btn-default btn-md">Профиль</button></a></li>
+        <li><a href = "/logout"><button type = "button" class = "btn btn-default btn-md">Выход</button></a></li>
         <%}%>
     </ul>
 </header>
@@ -29,7 +29,6 @@
         <li><a href = "/contacts">Контакты</a></li>
     </ul>
     <div class = "news">
-        <br><br><br>
         <h3>Свяжитесь с нами!</h3><br>
         <h4>Адрес:</h4> г. Киев, ул. Артема, 30-а<br>
         <h4>Телефон:</h4> 050 3435 240<br>

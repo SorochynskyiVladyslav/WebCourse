@@ -10,12 +10,12 @@
   <header class = "btn-group" role = "group">
     <ul class = "reglog">
     <%if (!user){ %>
-      <li><a href = "/register"><button type = "button" class = "btn btn-default">Регистрация</button></a></li>
-      <li><a href = "/login"><button type = "button" class = "btn btn-default">Вход</button></a></li>
+      <li><a href = "/register"><button type = "button" class = "btn btn-default btn-md">Регистрация</button></a></li>
+      <li><a href = "/login"><button type = "button" class = "btn btn-default btn-md">Вход</button></a></li>
     <%}%>
     <% if (user){ %>
-      <li><a href = "/profile"><button type = "button" class = "btn btn-default">Профиль</button></a></li>
-      <li><a href = "/logout"><button type = "button" class = "btn btn-default">Выход</button></a></li>
+      <li><a href = "/profile"><button type = "button" class = "btn btn-default btn-md">Профиль</button></a></li>
+      <li><a href = "/logout"><button type = "button" class = "btn btn-default btn-md">Выход</button></a></li>
     <%}%>
     </ul>
   </header>
@@ -28,15 +28,15 @@
       <%}%>
     <li><a href = "/contacts">Контакты</a></li>
   </ul>
-  <div class = "news">
     <%if (user && user.admin){%>
     <form class="newPost" action = "/addNews" method = "post" enctype="multipart/form-data">
-      <h5>Заголовок:</h5> <input class = "headingPost" type = "text" name = "heading"/><br>
-      <h5>Текст новости:</h5> <input class="textPost" type = "text" name = "text"/><br>
-      <h5>Картинка:</h5> <input type = 'file' name = 'picture'/><br>
-      <input type = "submit" value = 'Добавить новость'/>
+      <label id="text">Заголовок:</label> <input class = "headingPost" type = "text" name = "heading"/><br>
+      <label id="text">Текст новости:</label> <input class="textPost" type = "text" name = "text"/><br>
+      <label id="text">Картинка:</label> <input id="text" type = 'file' name = 'picture'/><br>
+      <input class="btn btn-warning btn-sm" type = "submit" value = 'Добавить новость'/>
     </form>
     <%}%>
+    <div class = "news">
     <%for (var i = news.length - 1; i >= 0; i--){%>
     <h3><%=news[i].heading%></h3><br>
     <p><%=news[i].text%></p><br><br>

@@ -10,8 +10,8 @@
 <header class = "btn-group" role = "group">
     <ul class = "reglog">
         <%if (!user){ %>
-        <li><a href = "/register"><button type = "button" class = "btn btn-default">Регистрация</button></a></li>
-        <li><a href = "/login"><button type = "button" class = "btn btn-default">Вход</button></a></li>
+        <li><a href = "/register"><button type = "button" class = "btn btn-default btn-md">Регистрация</button></a></li>
+        <li><a href = "/login"><button type = "button" class = "btn btn-default btn-md">Вход</button></a></li>
         <%}%>
         <% if (user){ %>
         <li><a href = "/profile"><button type = "button" class = "btn btn-default">Профиль</button></a></li>
@@ -29,6 +29,7 @@
         <li><a href = "/contacts">Контакты</a></li>
     </ul>
     <div class="cart">
+        <%if (cart.length != 0){%>
    <%for(var i = 0; i < cart.length; i++){%>
         <%=cart[i].name%> ......... <%=cart[i].price%>грн<br>
     <%}%>
@@ -37,8 +38,11 @@
         for (var i = 0; i < cart.length; i++){
             sum += cart[i].price;
         }%>
-        <h4>Итого: <%=sum%></h4><br>
+        <h4 id="text">Итого: <%=sum%></h4><br>
         <a href = "/buy"><button class="btn btn-primary">Купить</button></a>
+        <%} else {%>
+        <h4 id="text">Корзина пуста, закажите покушать!</h4>
+        <%}%>
     </div>
 </div>
 </body>

@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 </head>
-<body>
+<body id="bod">
 <header class = "btn-group" role = "group">
     <ul class="reglog2">
-    <li><a href = "/register"><button type = "button" class = "btn btn-default">Регистрация</button></a></li>
-    <li><a href = "/login"><button type = "button" class = "btn btn-default">Вход</button></a></li>
+    <li><a href = "/register"><button type = "button" class = "btn btn-default btn-md">Регистрация</button></a></li>
+    <li><a href = "/login"><button type = "button" class = "btn btn-default btn-md">Вход</button></a></li>
     </ul>
 </header>
 
@@ -21,13 +21,13 @@
 </ul>
 
 <div class="col-sm-6 col-sm-offset-3 sign">
-    <h1><span class="fa fa-sign-in"></span> Вход</h1>
+    <h1 id="text"><span class="fa fa-sign-in"></span> Вход</h1>
     <% if (message.length > 0) { %>
     <div class="alert alert-danger"><%= message %></div>
     <% } %>
     <form action='/login' method = 'POST'>
-        <label>E-mail:</label> <input class="form-control" type = 'text' name = 'email'/><br/>
-        <label>Пароль:</label> <input class="form-control" type = 'password' name = 'password' /><br/>
+        <label id="text">E-mail:</label> <input class="form-control" type = 'email' name = 'email' required/><br/>
+        <label id="text">Пароль:</label> <input class="form-control" type = 'password' name = 'password' required/><br/>
         <input type="submit" class="btn btn-warning btn-lg" value='Вход'/>
     </form>
 
